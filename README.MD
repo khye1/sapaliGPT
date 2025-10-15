@@ -5,8 +5,8 @@ Cách chạy nhanh:
 1. Copy `.env.example` sang `.env` và thêm `OPENAI_API_KEY`.
 2. `pip install -r requirements.txt`
 3. Thả tài liệu (.txt hoặc .md) vào thư mục `data/`
-4. Chạy nhập dữ liệu: `python scripts/ingest.py`
-5. Khởi chạy API: `python app/main.py` hoặc `uvicorn app.main:app --reload --port 8000`
+4. Chạy nhập dữ liệu: `python3 scripts/ingest.py`
+5. Khởi chạy API: `python3 app/main.py
 
 Endpoint chính:
 POST /query { "query": "..." }  
