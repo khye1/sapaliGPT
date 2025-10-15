@@ -13,26 +13,3 @@ POST /query { "query": "..." }
 → Trả về: { "answer": "...", "sources": [...] }
 
 Lưu ý: Chỉ là bản mẫu, **không dùng dữ liệu nhạy cảm** trên Colab.
-
-rag-chatbot/
-├── README.md
-├── requirements.txt
-├── .env.example
-├── data/ # Thư mục chứa tài liệu nguồn (txt/md/pdf)
-├── chroma_data/ # Thư mục lưu trữ CSDL vector (bỏ qua khi push git)
-├── scripts/
-│ ├── ingest.py # Tiền xử lý + nhúng dữ liệu
-│ ├── chunking.py # Cắt đoạn văn bản
-│ ├── embeddings.py # Sinh vector embedding
-│ └── eval.py # Đánh giá kết quả
-├── app/
-│ ├── main.py # API FastAPI chính
-│ ├── retriever.py # Module truy xuất dữ liệu từ ChromaDB
-│ ├── prompt_templates.py # Mẫu prompt cho LLM
-│ └── utils.py # Các hàm tiện ích
-├── tests/
-│ ├── test_ingest.py
-│ └── test_retrieval.py
-└── docker/
-├── Dockerfile
-└── docker-compose.yml
