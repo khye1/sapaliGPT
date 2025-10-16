@@ -5,7 +5,7 @@ from typing import List, Dict
 load_dotenv()
 
 OPENAI_CHAT_MODEL = os.getenv("OPENAI_CHAT_MODEL", "gpt-5-nano")
-TOP_K = int(os.getenv("TOP_K", 5))
+TOP_K = int(os.getenv("TOP_K", 10))
 CHROMA_PERSIST_DIR = os.getenv("CHROMA_PERSIST_DIR", "./chroma_data")
 COLLECTION_NAME = "docs"
 

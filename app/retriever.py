@@ -10,7 +10,7 @@ from app.prompt_templates import SYSTEM_PROMPT, USER_TEMPLATE
 load_dotenv()
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 EMBED_MODEL = os.getenv("OPENAI_EMBEDDING_MODEL", "text-embedding-3-small")
-CHAT_MODEL = os.getenv("OPENAI_CHAT_MODEL", "gpt-5-nano")
+CHAT_MODEL = os.getenv("OPENAI_CHAT_MODEL", "gpt-5-nano")  # Có thể đổi sang model khác nếu cần
 
 if not OPENAI_API_KEY:
     raise RuntimeError("OPENAI_API_KEY not set")
@@ -41,12 +41,21 @@ class RAGRetriever:
         # Truy vấn ChromaDB
         results = self.collection.query(
             query_embeddings=[q_emb],
-            n_results=min(top_k, 3)
+            n_results=top_k
         )
 
         docs = results.get("documents", [[]])[0]
         metadatas = results.get("metadatas", [[]])[0]
         ids = results.get("ids", [[]])[0]
+
+# Có thể thêm logic lọc ở đây nếu cần, ví dụ: kiểm tra xem '480-BLK' có trong docs[i] không
+    # hoặc kiểm tra xem docs[i] có chứa định dạng cấu tạo sản phẩm không (dựa trên SYSTEM_PROMPT)
+    # Ví dụ đơn giản: Lọc các docs có chứa từ khóa sản phẩm (nếu biết pattern)
+    # filtered_results = [ (docs[i], metadatas[i], ids[i]) for i in range(len(docs)) if '480-BLK' in docs[i] or contains_product_structure(docs[i]) ]
+    # if filtered_results:
+    #    docs, metadatas, ids = zip(*filtered_results)
+    #    docs, metadatas, ids = list(docs), list(metadatas), list(ids)
+
 
         return [
             {"id": ids[i], "text": docs[i], "metadata": metadatas[i]}
@@ -76,8 +85,8 @@ class RAGRetriever:
                 {"role": "system", "content": SYSTEM_PROMPT},
                 {"role": "user", "content": prompt}
             ],
-            temperature=temperature,
-            max_tokens=512
+            # temperature=0.7,
+            max_completion_tokens=512
         )
 
         answer_text = response.choices[0].message.content.strip()
